@@ -8,13 +8,9 @@ Utilizare:
     python simulator.py --broker 192.168.1.10 --port 1883 --interval 5
 """
 import argparse
-import json
-import math
-import random
 import signal
 import sys
 import time
-from datetime import datetime, timezone
 
 import paho.mqtt.client as mqtt
 
@@ -26,35 +22,7 @@ for _flux in (sys.stdout, sys.stderr):
         except Exception:
             pass
 
-# Dispozitivele simulate (trebuie să existe în platformă - vezi seed.py)
-DISPOZITIVE = [
-    {"cod": "rasp-pi-salon", "metrici": ["temperatura", "umiditate", "presiune"]},
-    {
-        "cod": "rasp-pi-exterior",
-        "metrici": ["temperatura", "umiditate", "luminozitate", "viteza_vant"],
-    },
-    {"cod": "rasp-pi-server", "metrici": ["temperatura", "umiditate"]},
-]
-
 _ruleaza = True
-
-
-def _valoare(metrica, ora_zi, pas):
-    """Generează o valoare realistă în funcție de ora din zi."""
-    diurnal = math.sin((ora_zi - 6) / 24 * 2 * math.pi)
-    if metrica == "temperatura":
-        return round(21 + 5 * diurnal + random.uniform(-0.6, 0.6), 1)
-    if metrica == "umiditate":
-        return round(55 - 12 * diurnal + random.uniform(-2, 2), 1)
-    if metrica == "presiune":
-        return round(1013 + 4 * math.sin(pas / 20) + random.uniform(-0.4, 0.4), 1)
-    if metrica == "luminozitate":
-        return round(max(0, diurnal) * 900 + random.uniform(0, 40), 0)
-    if metrica == "viteza_vant":
-        return round(max(0, 8 + 6 * math.sin(pas / 10) + random.uniform(-3, 3)), 1)
-    if metrica == "nivel_apa":
-        return round(max(5, 70 + 20 * math.sin(pas / 30) + random.uniform(-1, 1)), 1)
-    return round(random.uniform(0, 100), 1)
 
 
 def _opreste(signum, frame):
@@ -90,34 +58,14 @@ def main():
 
     client.loop_start()
 
-    # Marchează dispozitivele ca online
-    for d in DISPOZITIVE:
-        client.publish(f"iot/{d['cod']}/status", "online", retain=True)
+    print("Simulator pornit. (Ctrl+C pentru oprire)")
+    print("Adaugă dispozitive manual prin interfață și specifică codul în acest script.")
 
-    print(f"Simulator pornit. Publică la fiecare {args.interval}s. (Ctrl+C pentru oprire)\n")
-
-    pas = 0
     try:
         while _ruleaza:
-            acum = datetime.now(timezone.utc)
-            ora_zi = acum.hour + acum.minute / 60
-            for d in DISPOZITIVE:
-                payload = {m: _valoare(m, ora_zi, pas) for m in d["metrici"]}
-                topic = f"iot/{d['cod']}/telemetry"
-                client.publish(topic, json.dumps(payload))
-                print(f"  {acum.strftime('%H:%M:%S')}  {d['cod']:18s} -> {payload}")
-            print("")
-            pas += 1
-            # Așteptare întreruptibilă
-            ramas = args.interval
-            while ramas > 0 and _ruleaza:
-                time.sleep(min(0.2, ramas))
-                ramas -= 0.2
+            time.sleep(1)
     finally:
-        print("\nOprire simulator... marchez dispozitivele ca offline.")
-        for d in DISPOZITIVE:
-            client.publish(f"iot/{d['cod']}/status", "offline", retain=True)
-        time.sleep(0.5)
+        print("\nOprire simulator.")
         client.loop_stop()
         client.disconnect()
 

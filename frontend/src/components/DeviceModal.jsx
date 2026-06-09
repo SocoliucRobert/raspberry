@@ -109,7 +109,7 @@ export default function DeviceModal({ deschis, onInchide, dispozitiv, onSalvat }
             className="input font-mono disabled:bg-slate-100"
             value={form.cod_dispozitiv}
             onChange={modifica('cod_dispozitiv')}
-            placeholder="ex: rasp-pi-salon"
+            placeholder="ex: senzor-living-01"
             disabled={eDeEditare}
             required
           />

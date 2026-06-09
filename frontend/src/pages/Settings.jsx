@@ -32,7 +32,7 @@ import paho.mqtt.client as mqtt
 
 BROKER = "localhost"   # adresa serverului platformei
 PORT = 1883
-COD_DISPOZITIV = "rasp-pi-salon"
+COD_DISPOZITIV = "<codul-tau-dispozitiv>"
 
 client = mqtt.Client()
 client.connect(BROKER, PORT, 60)

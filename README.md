@@ -213,7 +213,7 @@ client.connect("IP_SERVER_PLATFORMA", 1883, 60)
 
 while True:
     date = {"temperatura": 23.5, "umiditate": 58}
-    client.publish("iot/rasp-pi-salon/telemetry", json.dumps(date))
+    client.publish("iot/<cod_dispozitiv>/telemetry", json.dumps(date))
     time.sleep(5)
 ```
 
