@@ -202,7 +202,24 @@ Dispozitivele publică date JSON pe broker-ul MQTT:
 | `iot/<cod_dispozitiv>/telemetry` | `{"temperatura": 23.5, "umiditate": 60}` |
 | `iot/<cod_dispozitiv>/status` | `online` sau `offline` |
 
-Exemplu pe Raspberry Pi (Python):
+### Raspberry Pi 5 — client dedicat
+
+Pentru Raspberry Pi 5 există un client gata configurat în folderul `raspberry-pi-client/`:
+
+```bash
+# Pe Raspberry Pi (prin SSH)
+cd raspberry-pi-client
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+# Editează .env cu IP-ul PC-ului și codul dispozitivului
+python client.py
+```
+
+Clientul citește automat **temperatura CPU**, **utilizare CPU**, **memorie RAM** și **utilizare disk** și le publică în platformă. Detalii complete în `raspberry-pi-client/README.md`.
+
+### Exemplu generic (Python)
 
 ```python
 import json, time
@@ -243,7 +260,8 @@ proiect/
 │       ├── components/    # componente reutilizabile
 │       ├── context/       # AuthContext, NotificationsContext
 │       └── api/           # client axios + socket.io
-├── simulator/              # simulator dispozitive IoT
+├── raspberry-pi-client/    # client MQTT pentru Raspberry Pi 5
+├── simulator/              # simulator dispozitive IoT (testare fără hardware)
 ├── mosquitto/              # configurație broker MQTT
 └── docker-compose.yml      # PostgreSQL + Mosquitto
 ```

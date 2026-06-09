@@ -114,8 +114,16 @@ export default function Settings() {
           </div>
         </div>
 
-        <p className="mb-2 mt-4 text-sm font-medium text-slate-700">
-          Exemplu de cod pentru Raspberry Pi (Python):
+        <div className="mb-3 mt-4 rounded-xl border border-brand-200 bg-brand-50 p-3">
+          <p className="text-sm font-medium text-brand-700">
+            Pentru Raspberry Pi 5 există un client gata configurat în folderul
+            <code className="mx-1 rounded bg-white px-1 py-0.5 text-xs">raspberry-pi-client/</code>.
+            Vezi README-ul din acel folder pentru pașii de instalare.
+          </p>
+        </div>
+
+        <p className="mb-2 text-sm font-medium text-slate-700">
+          Exemplu de cod generic (Python):
         </p>
         <CodeBlock cod={EXEMPLU_PYTHON} />
       </div>
