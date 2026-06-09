@@ -1,0 +1,35 @@
+# === Python / Backend ===
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+*.sqlite3
+*.db
+
+# === Node / Frontend ===
+node_modules/
+dist/
+dist-ssr/
+.vite/
+*.local
+
+# === Variabile de mediu ===
+.env
+.env.*
+!.env.example
+
+# === Logs ===
+*.log
+logs/
+
+# === Editoare / SO ===
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# === Docker volumes (date locale Mosquitto) ===
+mosquitto/data/
+mosquitto/log/

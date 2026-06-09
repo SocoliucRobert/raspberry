@@ -1,0 +1,39 @@
+# Servicii de infrastructură: PostgreSQL + broker MQTT Mosquitto.
+# Pornește cu:  docker compose up -d
+# (Util mai ales pentru deployment pe Raspberry Pi 5, unde Docker este disponibil.)
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: iot_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: iot_user
+      POSTGRES_PASSWORD: iot_parola
+      POSTGRES_DB: iot_platforma
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U iot_user -d iot_platforma"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: iot_mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_log:/mosquitto/log
+
+volumes:
+  pgdata:
+  mosquitto_data:
+  mosquitto_log:
