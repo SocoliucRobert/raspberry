@@ -96,8 +96,8 @@ export default function Login() {
         <div className="pointer-events-none absolute -bottom-24 -left-10 h-72 w-72 rounded-full bg-brand-400/10 blur-3xl" />
 
         <div className="relative flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-lg">
-            <UsuLogo className="h-8 w-8" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white p-1.5 shadow-lg">
+            <UsuLogo className="h-full w-full" />
           </div>
           <span className="text-xl font-bold">Platformă IoT</span>
         </div>
@@ -130,13 +130,11 @@ export default function Login() {
           </div>
         </div>
 
-        <div className="relative flex items-center gap-3 rounded-xl bg-white/10 p-3 backdrop-blur">
-          <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg bg-white shadow">
-            <UsuLogo className="h-7 w-7" />
-          </div>
+        <div className="relative flex items-center gap-4 rounded-xl bg-white p-4 shadow-lg">
+          <UsuLogo className="h-20 w-auto flex-shrink-0" />
           <div className="leading-tight">
-            <p className="text-sm font-semibold text-white">Universitatea Ștefan cel Mare</p>
-            <p className="text-xs text-brand-200">Suceava · © {new Date().getFullYear()}</p>
+            <p className="text-sm font-bold text-brand-700">Universitatea Ștefan cel Mare</p>
+            <p className="text-xs text-slate-500">Suceava · © {new Date().getFullYear()}</p>
           </div>
         </div>
       </div>
@@ -145,9 +143,7 @@ export default function Login() {
       <div className="flex w-full items-center justify-center bg-slate-50 p-6 dark:bg-slate-900 lg:w-1/2">
         <div className="w-full max-w-md">
           <div className="mb-8 text-center lg:hidden">
-            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-md ring-1 ring-slate-200 dark:ring-slate-700">
-              <UsuLogo className="h-9 w-9" />
-            </div>
+            <UsuLogo className="mx-auto mb-3 h-24 w-auto" />
             <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">Platformă IoT</h2>
           </div>
 

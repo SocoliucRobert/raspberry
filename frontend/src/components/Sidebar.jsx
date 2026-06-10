@@ -34,8 +34,8 @@ export default function Sidebar({ deschis, onInchide }) {
       >
         <div className="flex h-16 items-center justify-between px-5">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-md">
-              <UsuLogo className="h-7 w-7" />
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white p-1 shadow-md">
+              <UsuLogo className="h-full w-full" />
             </div>
             <div className="leading-tight">
               <p className="text-sm font-bold text-white">Platformă IoT</p>
@@ -94,16 +94,8 @@ export default function Sidebar({ deschis, onInchide }) {
         </nav>
 
         <div className="border-t border-white/10 p-4">
-          <div className="flex items-center gap-3 rounded-xl bg-white/5 p-3">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-white shadow">
-              <UsuLogo className="h-7 w-7" />
-            </div>
-            <div className="leading-tight">
-              <p className="text-[12px] font-semibold text-white">USU</p>
-              <p className="text-[10px] text-brand-200">
-                Universitatea Ștefan cel Mare Suceava
-              </p>
-            </div>
+          <div className="flex flex-col items-center rounded-xl bg-white p-3 shadow">
+            <UsuLogo className="h-24 w-auto" />
           </div>
           <p className="mt-3 text-center text-[10px] text-brand-300/70">
             Raspberry Pi 5 · Flask · React

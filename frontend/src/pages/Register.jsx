@@ -43,9 +43,7 @@ export default function Register() {
     <div className="flex min-h-screen items-center justify-center bg-slate-50 p-6 dark:bg-slate-900">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-md ring-1 ring-slate-200 dark:ring-slate-700">
-            <UsuLogo className="h-9 w-9" />
-          </div>
+          <UsuLogo className="mx-auto mb-3 h-24 w-auto" />
           <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Creează un cont</h2>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             Înregistrează-te pentru a gestiona dispozitivele tale IoT.
