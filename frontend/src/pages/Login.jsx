@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { Activity, LogIn, AlertCircle, Cpu, BarChart3, Bell } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
+import UsuLogo from '../components/UsuLogo'
 
 function GoogleIcon({ className }) {
   return (
@@ -87,15 +88,21 @@ export default function Login() {
   return (
     <div className="flex min-h-screen">
       {/* Panou stânga - branding */}
-      <div className="relative hidden w-1/2 flex-col justify-between bg-gradient-to-br from-brand-700 via-brand-600 to-brand-800 p-12 text-white lg:flex">
-        <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/15">
-            <Activity className="h-6 w-6" />
+      <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden p-12 text-white lg:flex"
+        style={{ backgroundImage: 'linear-gradient(150deg, #162f5c 0%, #1a3b73 50%, #1f4a8f 100%)' }}
+      >
+        {/* Accent decorativ */}
+        <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-brand-300/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -left-10 h-72 w-72 rounded-full bg-brand-400/10 blur-3xl" />
+
+        <div className="relative flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-lg">
+            <UsuLogo className="h-8 w-8" />
           </div>
           <span className="text-xl font-bold">Platformă IoT</span>
         </div>
 
-        <div className="max-w-md">
+        <div className="relative max-w-md">
           <h1 className="text-4xl font-bold leading-tight">
             Gestionează și monitorizează dispozitivele IoT dintr-un singur loc
           </h1>
@@ -123,15 +130,23 @@ export default function Login() {
           </div>
         </div>
 
-        <p className="text-sm text-brand-200">© {new Date().getFullYear()} Platformă IoT</p>
+        <div className="relative flex items-center gap-3 rounded-xl bg-white/10 p-3 backdrop-blur">
+          <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg bg-white shadow">
+            <UsuLogo className="h-7 w-7" />
+          </div>
+          <div className="leading-tight">
+            <p className="text-sm font-semibold text-white">Universitatea Ștefan cel Mare</p>
+            <p className="text-xs text-brand-200">Suceava · © {new Date().getFullYear()}</p>
+          </div>
+        </div>
       </div>
 
       {/* Panou dreapta - formular */}
       <div className="flex w-full items-center justify-center bg-slate-50 p-6 dark:bg-slate-900 lg:w-1/2">
         <div className="w-full max-w-md">
           <div className="mb-8 text-center lg:hidden">
-            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-600 text-white">
-              <Activity className="h-6 w-6" />
+            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-md ring-1 ring-slate-200 dark:ring-slate-700">
+              <UsuLogo className="h-9 w-9" />
             </div>
             <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">Platformă IoT</h2>
           </div>

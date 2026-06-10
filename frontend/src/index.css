@@ -20,13 +20,20 @@ body {
   margin: 0;
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  background-color: #f1f5f9;
   color: #0f172a;
+  background-color: #eef2f8;
+  background-image:
+    radial-gradient(at 0% 0%, rgba(142, 197, 232, 0.18) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(31, 74, 143, 0.08) 0px, transparent 45%);
+  background-attachment: fixed;
 }
 
 html.dark body {
-  background-color: #0f172a;
-  color: #f1f5f9;
+  color: #e2e8f0;
+  background-color: #0b1220;
+  background-image:
+    radial-gradient(at 0% 0%, rgba(31, 74, 143, 0.25) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(142, 197, 232, 0.08) 0px, transparent 45%);
 }
 
 /* Scrollbar personalizat */
@@ -59,16 +66,23 @@ html.dark ::-webkit-scrollbar-thumb:hover {
 
 @layer components {
   .card {
-    @apply bg-white rounded-2xl border border-slate-200 shadow-sm;
+    @apply bg-white rounded-2xl border border-slate-200/80 shadow-card transition-shadow;
   }
   html.dark .card {
-    @apply bg-slate-800 border-slate-700;
+    @apply bg-slate-800/90 border-slate-700/80 backdrop-blur;
+  }
+  .card-hover {
+    @apply hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200;
   }
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .btn-primary {
-    @apply btn bg-brand-600 text-white hover:bg-brand-700 focus:ring-brand-500;
+    @apply btn text-white focus:ring-brand-500 shadow-sm;
+    background-image: linear-gradient(135deg, #2c5499 0%, #1f4a8f 100%);
+  }
+  .btn-primary:hover {
+    background-image: linear-gradient(135deg, #25497f 0%, #1a3b73 100%);
   }
   .btn-secondary {
     @apply btn bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 focus:ring-brand-500;

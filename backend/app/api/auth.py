@@ -128,9 +128,9 @@ def google_callback():
     eroare = request.args.get("error")
 
     if eroare:
-        return redirect(f"{_frontend_url()}/login?error=google_{eroare}")
+        return redirect(f"{_frontend_url()}/autentificare?error=google_{eroare}")
     if not code:
-        return redirect(f"{_frontend_url()}/login?error=google_no_code")
+        return redirect(f"{_frontend_url()}/autentificare?error=google_no_code")
 
     client_id = current_app.config["GOOGLE_CLIENT_ID"]
     client_secret = current_app.config["GOOGLE_CLIENT_SECRET"]
@@ -149,11 +149,11 @@ def google_callback():
         timeout=15,
     )
     if not token_resp.ok:
-        return redirect(f"{_frontend_url()}/login?error=google_token")
+        return redirect(f"{_frontend_url()}/autentificare?error=google_token")
 
     access_token = token_resp.json().get("access_token")
     if not access_token:
-        return redirect(f"{_frontend_url()}/login?error=google_token")
+        return redirect(f"{_frontend_url()}/autentificare?error=google_token")
 
     # Obține datele utilizatorului
     user_resp = requests.get(
@@ -162,7 +162,7 @@ def google_callback():
         timeout=15,
     )
     if not user_resp.ok:
-        return redirect(f"{_frontend_url()}/login?error=google_userinfo")
+        return redirect(f"{_frontend_url()}/autentificare?error=google_userinfo")
 
     user_info = user_resp.json()
     google_id = user_info.get("id")
@@ -171,7 +171,7 @@ def google_callback():
     avatar = user_info.get("picture")
 
     if not google_id or not email:
-        return redirect(f"{_frontend_url()}/login?error=google_incomplete")
+        return redirect(f"{_frontend_url()}/autentificare?error=google_incomplete")
 
     # Caută sau creează utilizatorul
     utilizator = User.query.filter_by(google_id=google_id).first()
@@ -201,4 +201,4 @@ def google_callback():
         identity=str(utilizator.id),
         additional_claims={"rol": utilizator.rol},
     )
-    return redirect(f"{_frontend_url()}/login?token={token}")
+    return redirect(f"{_frontend_url()}/autentificare?token={token}")

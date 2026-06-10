@@ -108,7 +108,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="animate-floatUp space-y-6">
       {/* Carduri statistici */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard titlu="Total dispozitive" valoare={stats.total} icon={Cpu} culoare="brand" />
@@ -121,27 +121,27 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Alerte recente */}
         <div className="card lg:col-span-2">
-          <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
-            <h2 className="font-semibold text-slate-800">Alerte recente</h2>
+          <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-700/60">
+            <h2 className="font-semibold text-slate-800 dark:text-slate-100">Alerte recente</h2>
             <Link
               to="/alerte"
-              className="flex items-center gap-1 text-sm font-medium text-brand-600 hover:text-brand-700"
+              className="flex items-center gap-1 text-sm font-medium text-brand-600 hover:text-brand-700 dark:text-brand-300"
             >
               Vezi toate <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
           {alerte.length === 0 ? (
-            <div className="px-5 py-10 text-center text-sm text-slate-400">
+            <div className="px-5 py-10 text-center text-sm text-slate-400 dark:text-slate-500">
               Nu există alerte. Totul funcționează normal.
             </div>
           ) : (
-            <ul className="divide-y divide-slate-100">
+            <ul className="divide-y divide-slate-100 dark:divide-slate-700/60">
               {alerte.map((a) => (
                 <li key={a.id} className="flex items-start gap-3 px-5 py-3.5">
                   <SeverityBadge severitate={a.severitate} />
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm text-slate-700">{a.mesaj}</p>
-                    <p className="mt-0.5 text-xs text-slate-400">{candva(a.creat_la)}</p>
+                    <p className="text-sm text-slate-700 dark:text-slate-200">{a.mesaj}</p>
+                    <p className="mt-0.5 text-xs text-slate-400 dark:text-slate-500">{candva(a.creat_la)}</p>
                   </div>
                 </li>
               ))}
@@ -151,13 +151,13 @@ export default function Dashboard() {
 
         {/* Distribuție pe tipuri */}
         <div className="card">
-          <div className="flex items-center gap-2 border-b border-slate-100 px-5 py-4">
+          <div className="flex items-center gap-2 border-b border-slate-100 px-5 py-4 dark:border-slate-700/60">
             <PieIcon className="h-4 w-4 text-slate-400" />
-            <h2 className="font-semibold text-slate-800">Distribuție pe tipuri</h2>
+            <h2 className="font-semibold text-slate-800 dark:text-slate-100">Distribuție pe tipuri</h2>
           </div>
           <div className="p-5">
             {distributie.length === 0 ? (
-              <p className="py-10 text-center text-sm text-slate-400">Niciun dispozitiv</p>
+              <p className="py-10 text-center text-sm text-slate-400 dark:text-slate-500">Niciun dispozitiv</p>
             ) : (
               <>
                 <ResponsiveContainer width="100%" height={200}>
@@ -182,14 +182,14 @@ export default function Dashboard() {
                 <div className="mt-3 space-y-2">
                   {distributie.map((d, i) => (
                     <div key={d.name} className="flex items-center justify-between text-sm">
-                      <span className="flex items-center gap-2 text-slate-600">
+                      <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
                         <span
                           className="h-2.5 w-2.5 rounded-full"
                           style={{ backgroundColor: PALETA[i % PALETA.length] }}
                         />
                         {d.name}
                       </span>
-                      <span className="font-semibold text-slate-800">{d.value}</span>
+                      <span className="font-semibold text-slate-800 dark:text-slate-100">{d.value}</span>
                     </div>
                   ))}
                 </div>
@@ -202,10 +202,10 @@ export default function Dashboard() {
       {/* Dispozitivele tale */}
       <div>
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold text-slate-800">Dispozitivele tale</h2>
+          <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">Dispozitivele tale</h2>
           <Link
             to="/dispozitive"
-            className="flex items-center gap-1 text-sm font-medium text-brand-600 hover:text-brand-700"
+            className="flex items-center gap-1 text-sm font-medium text-brand-600 hover:text-brand-700 dark:text-brand-300"
           >
             Vezi toate <ArrowRight className="h-4 w-4" />
           </Link>

@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Activity, UserPlus, AlertCircle } from 'lucide-react'
+import { UserPlus, AlertCircle } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
+import UsuLogo from '../components/UsuLogo'
 
 export default function Register() {
   const { inregistrare } = useAuth()
@@ -39,21 +40,21 @@ export default function Register() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 p-6">
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 p-6 dark:bg-slate-900">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-600 text-white">
-            <Activity className="h-6 w-6" />
+          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-md ring-1 ring-slate-200 dark:ring-slate-700">
+            <UsuLogo className="h-9 w-9" />
           </div>
-          <h2 className="text-2xl font-bold text-slate-800">Creează un cont</h2>
-          <p className="mt-1 text-sm text-slate-500">
+          <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Creează un cont</h2>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             Înregistrează-te pentru a gestiona dispozitivele tale IoT.
           </p>
         </div>
 
         <div className="card p-6">
           {eroare && (
-            <div className="mb-5 flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            <div className="mb-5 flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-900/20 dark:text-red-300">
               <AlertCircle className="h-4 w-4 flex-shrink-0" />
               {eroare}
             </div>
@@ -113,9 +114,9 @@ export default function Register() {
           </form>
         </div>
 
-        <p className="mt-6 text-center text-sm text-slate-500">
+        <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
           Ai deja cont?{' '}
-          <Link to="/autentificare" className="font-semibold text-brand-600 hover:text-brand-700">
+          <Link to="/autentificare" className="font-semibold text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300">
             Conectează-te
           </Link>
         </p>

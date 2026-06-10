@@ -16,15 +16,15 @@ export default function Topbar({ titlu, onDeschideMeniu }) {
   }
 
   return (
-    <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white/90 px-4 backdrop-blur lg:px-6">
+    <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white/80 px-4 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/80 lg:px-6">
       <div className="flex items-center gap-3">
         <button
           onClick={onDeschideMeniu}
-          className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 lg:hidden"
+          className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 lg:hidden"
         >
           <Menu className="h-5 w-5" />
         </button>
-        <h1 className="text-lg font-bold text-slate-800">{titlu}</h1>
+        <h1 className="text-lg font-bold text-slate-800 dark:text-slate-100">{titlu}</h1>
       </div>
 
       <div className="flex items-center gap-2 sm:gap-3">
@@ -42,7 +42,7 @@ export default function Topbar({ titlu, onDeschideMeniu }) {
         {/* Clopoțel alerte */}
         <button
           onClick={() => navigate('/alerte')}
-          className="relative rounded-lg p-2 text-slate-500 hover:bg-slate-100"
+          className="relative rounded-lg p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
           title="Alerte"
         >
           <Bell className="h-5 w-5" />
@@ -76,7 +76,7 @@ export default function Topbar({ titlu, onDeschideMeniu }) {
 
         <button
           onClick={iesire}
-          className="rounded-lg p-2 text-slate-500 hover:bg-red-50 hover:text-red-600"
+          className="rounded-lg p-2 text-slate-500 hover:bg-red-50 hover:text-red-600 dark:text-slate-400 dark:hover:bg-red-900/20 dark:hover:text-red-400"
           title="Deconectare"
         >
           <LogOut className="h-5 w-5" />

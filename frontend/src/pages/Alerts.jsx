@@ -21,9 +21,9 @@ const SEVERITATI = [
 ]
 
 const STIL = {
-  critic: { icon: AlertCircle, clasa: 'text-red-600 bg-red-50', border: 'border-l-red-500' },
-  avertisment: { icon: AlertTriangle, clasa: 'text-amber-600 bg-amber-50', border: 'border-l-amber-500' },
-  info: { icon: Info, clasa: 'text-brand-600 bg-brand-50', border: 'border-l-brand-500' },
+  critic: { icon: AlertCircle, clasa: 'text-red-600 bg-red-50 dark:bg-red-900/30 dark:text-red-300', border: 'border-l-red-500' },
+  avertisment: { icon: AlertTriangle, clasa: 'text-amber-600 bg-amber-50 dark:bg-amber-900/30 dark:text-amber-300', border: 'border-l-amber-500' },
+  info: { icon: Info, clasa: 'text-brand-600 bg-brand-50 dark:bg-brand-900/30 dark:text-brand-300', border: 'border-l-brand-500' },
 }
 
 export default function Alerts() {
@@ -95,11 +95,11 @@ export default function Alerts() {
   const numarNecitite = alerte.filter((a) => !a.citita).length
 
   return (
-    <div className="space-y-5">
+    <div className="animate-floatUp space-y-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-lg font-bold text-slate-800">Alerte</h1>
-          <p className="text-sm text-slate-500">
+          <h1 className="text-lg font-bold text-slate-800 dark:text-slate-100">Alerte</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400">
             {numarNecitite > 0
               ? `${numarNecitite} alerte necitite`
               : 'Toate alertele au fost citite'}
@@ -116,15 +116,15 @@ export default function Alerts() {
 
       {/* Filtre */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="flex rounded-xl border border-slate-200 bg-white p-1">
+        <div className="flex rounded-xl border border-slate-200 bg-white p-1 dark:border-slate-700 dark:bg-slate-800">
           {FILTRE.map((f) => (
             <button
               key={f.cheie}
               onClick={() => setFiltru(f.cheie)}
               className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
                 filtru === f.cheie
-                  ? 'bg-brand-600 text-white'
-                  : 'text-slate-600 hover:bg-slate-100'
+                  ? 'bg-brand-600 text-white shadow-sm'
+                  : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700'
               }`}
             >
               {f.eticheta}
@@ -173,13 +173,13 @@ export default function Alerts() {
                   <Icon className="h-5 w-5" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-slate-800">{a.mesaj}</p>
-                  <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400">
+                  <p className="text-sm font-medium text-slate-800 dark:text-slate-100">{a.mesaj}</p>
+                  <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400 dark:text-slate-500">
                     <span>{candva(a.creat_la)}</span>
                     {a.nume_dispozitiv && (
                       <Link
                         to={`/dispozitive/${a.dispozitiv_id}`}
-                        className="inline-flex items-center gap-1 text-brand-600 hover:underline"
+                        className="inline-flex items-center gap-1 text-brand-600 hover:underline dark:text-brand-300"
                       >
                         {a.nume_dispozitiv} <ExternalLink className="h-3 w-3" />
                       </Link>
@@ -194,7 +194,7 @@ export default function Alerts() {
                     <button
                       onClick={() => marcheazaCitita(a)}
                       title="Marchează ca citită"
-                      className="rounded-lg p-2 text-slate-400 hover:bg-emerald-50 hover:text-emerald-600"
+                      className="rounded-lg p-2 text-slate-400 hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400"
                     >
                       <CheckCheck className="h-4 w-4" />
                     </button>
@@ -202,7 +202,7 @@ export default function Alerts() {
                   <button
                     onClick={() => sterge(a.id)}
                     title="Șterge"
-                    className="rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-600"
+                    className="rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>
