@@ -54,15 +54,23 @@ export default function Topbar({ titlu, onDeschideMeniu }) {
         </button>
 
         {/* Utilizator */}
-        <div className="flex items-center gap-2 rounded-xl border border-slate-200 py-1 pl-1 pr-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-100 text-brand-700">
-            <User className="h-4 w-4" />
-          </div>
+        <div className="flex items-center gap-2 rounded-xl border border-slate-200 py-1 pl-1 pr-2 dark:border-slate-700">
+          {utilizator?.avatar_url ? (
+            <img
+              src={utilizator.avatar_url}
+              alt={utilizator.nume_utilizator}
+              className="h-8 w-8 rounded-lg object-cover"
+            />
+          ) : (
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-100 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
+              <User className="h-4 w-4" />
+            </div>
+          )}
           <div className="hidden leading-tight sm:block">
-            <p className="text-sm font-semibold text-slate-800">
+            <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
               {utilizator?.nume_utilizator}
             </p>
-            <p className="text-[11px] capitalize text-slate-400">{utilizator?.rol}</p>
+            <p className="text-[11px] capitalize text-slate-400 dark:text-slate-500">{utilizator?.rol}</p>
           </div>
         </div>
 

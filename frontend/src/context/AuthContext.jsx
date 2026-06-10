@@ -30,6 +30,13 @@ export function AuthProvider({ children }) {
     return r.data.utilizator
   }, [])
 
+  const loginCuToken = useCallback(async (token) => {
+    setAuthToken(token)
+    const r = await api.get('/auth/profil')
+    setUtilizator(r.data)
+    return r.data
+  }, [])
+
   const inregistrare = useCallback(async (date) => {
     const r = await api.post('/auth/inregistrare', date)
     setAuthToken(r.data.token)
@@ -44,7 +51,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ utilizator, seIncarca, autentificare, inregistrare, deconectare }}
+      value={{ utilizator, seIncarca, autentificare, loginCuToken, inregistrare, deconectare }}
     >
       {children}
     </AuthContext.Provider>

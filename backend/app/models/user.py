@@ -16,7 +16,9 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nume_utilizator = db.Column(db.String(80), unique=True, nullable=False, index=True)
     email = db.Column(db.String(255), unique=True, nullable=False, index=True)
-    parola_hash = db.Column(db.String(255), nullable=False)
+    parola_hash = db.Column(db.String(255), nullable=True)  # null pentru utilizatorii Google
+    google_id = db.Column(db.String(120), unique=True, nullable=True, index=True)
+    avatar_url = db.Column(db.String(512), nullable=True)
     rol = db.Column(db.String(20), nullable=False, default="utilizator")  # admin / utilizator
     creat_la = db.Column(db.DateTime(timezone=True), default=_acum)
 
@@ -40,6 +42,7 @@ class User(db.Model):
             "nume_utilizator": self.nume_utilizator,
             "email": self.email,
             "rol": self.rol,
+            "avatar_url": self.avatar_url,
             "creat_la": self.creat_la.isoformat() if self.creat_la else None,
         }
 
