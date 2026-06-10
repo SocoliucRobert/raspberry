@@ -1,4 +1,4 @@
-# Platformă Cloud pentru Gestionarea și Monitorizarea Dispozitivelor IoT
+r# Platformă Cloud pentru Gestionarea și Monitorizarea Dispozitivelor IoT
 
 Platformă completă pentru conectarea, monitorizarea și controlul dispozitivelor IoT
 (Raspberry Pi 5, ESP32, senzori), cu **telemetrie în timp real**, **alerte
@@ -58,39 +58,67 @@ inteligente** și **interfață complet în limba română**.
 
 - **Python** 3.10+
 - **Node.js** 18+ și npm
-- **PostgreSQL** 14+
-- **Broker MQTT** (Mosquitto)
+- **PostgreSQL** 14+ (instalat nativ)
+- **Broker MQTT** (Mosquitto instalat nativ pe Windows)
 
-> Cel mai simplu mod de a rula PostgreSQL și Mosquitto este prin **Docker**
-> (vezi pasul 1). Dacă nu ai Docker, instalează-le nativ (instrucțiuni mai jos).
+> **Windows:** Se folosește Mosquitto nativ (nu Docker) pentru acces din rețeaua locală.
+> **Linux/Mac:** Poți folosi Docker (vezi Varianta A) sau instalare nativă.
 
 ---
 
-## Instalare rapidă
+## Instalare rapidă (Windows)
 
-```bash
-# 1. Pornește infrastructura (PostgreSQL + Mosquitto)
-docker compose up -d
+### 1. PostgreSQL (instalat nativ)
 
-# 2. Backend
+Instalează PostgreSQL de la [postgresql.org/download](https://www.postgresql.org/download/windows/),
+apoi creează baza de date:
+
+```sql
+CREATE USER iot_user WITH PASSWORD 'iot_parola';
+CREATE DATABASE iot_platforma OWNER iot_user;
+```
+
+### 2. Mosquitto (instalat nativ pe Windows)
+
+```powershell
+# Instalează Mosquitto
+winget install --id EclipseFoundation.Mosquitto
+
+# Oprește serviciul implicit (rulează cu config-ul proiectului mai târziu)
+# Sau configurează manual C:\Program Files\mosquitto\mosquitto.conf să asculte pe 0.0.0.0
+```
+
+**IMPORTANT:** Deschide `C:\Program Files\mosquitto\mosquitto.conf` și adaugă la început:
+
+```ini
+listener 1883 0.0.0.0
+allow_anonymous true
+```
+
+Apoi restart-ează serviciul din `services.msc` sau rulează manual:
+
+```powershell
+& "C:\Program Files\mosquitto\mosquitto.exe" -c "D:\proiect\mosquitto\config\mosquitto.conf"
+```
+
+### 3. Backend
+
+```powershell
 cd backend
 python -m venv .venv
-# Windows:  .venv\Scripts\activate
-# Linux/Mac: source .venv/bin/activate
+.venv\Scripts\activate
 pip install -r requirements.txt
-copy .env.example .env        # Windows  (Linux/Mac: cp .env.example .env)
-python seed.py                # populează date demo
-python run.py                 # pornește serverul pe http://localhost:5000
+copy .env.example .env        # editează .env dacă e nevoie
+python seed.py                # creează conturile admin + demo
+python run.py                 # http://localhost:5000
+```
 
-# 3. Frontend (într-un terminal nou)
+### 4. Frontend
+
+```powershell
 cd frontend
 npm install
 npm run dev                   # http://localhost:5173
-
-# 4. Simulator (terminal nou, opțional - generează date)
-cd simulator
-pip install -r requirements.txt
-python simulator.py
 ```
 
 Deschide **http://localhost:5173** și conectează-te cu `admin` / `admin123`.
@@ -99,18 +127,12 @@ Deschide **http://localhost:5173** și conectează-te cu `admin` / `admin123`.
 
 ## 1. Servicii de infrastructură
 
-### Varianta A — Docker (recomandat)
+### Varianta A — Windows nativ (recomandat pentru dezvoltare locală)
 
-```bash
-docker compose up -d      # pornește PostgreSQL (5432) + Mosquitto (1883)
-docker compose ps         # verifică starea
-docker compose down       # oprește serviciile
-```
-
-### Varianta B — Instalare nativă (fără Docker)
-
-**PostgreSQL:** instalează de la [postgresql.org](https://www.postgresql.org/download/),
-apoi creează baza de date și utilizatorul:
+**PostgreSQL:**
+1. Instalează de la [postgresql.org/download](https://www.postgresql.org/download/windows/)
+2. Setează parola `postgres` la instalare
+3. Creează utilizatorul și baza de date:
 
 ```sql
 CREATE USER iot_user WITH PASSWORD 'iot_parola';
@@ -118,23 +140,48 @@ CREATE DATABASE iot_platforma OWNER iot_user;
 ```
 
 **Mosquitto:**
-- Windows: descarcă de la [mosquitto.org/download](https://mosquitto.org/download/).
-- Raspberry Pi / Linux: `sudo apt install mosquitto mosquitto-clients`
+1. Instalează: `winget install --id EclipseFoundation.Mosquitto`
+2. Configurează `C:\Program Files\mosquitto\mosquitto.conf`:
 
-Pornește Mosquitto cu configurația din `mosquitto/config/mosquitto.conf` sau cu
-`allow_anonymous true` pentru rețeaua locală.
+```ini
+listener 1883 0.0.0.0
+allow_anonymous true
+```
+
+3. Deschide portul 1883 în firewall (PowerShell admin):
+
+```powershell
+New-NetFirewallRule -DisplayName "Mosquitto MQTT 1883" -Direction Inbound -LocalPort 1883 -Protocol TCP -Action Allow -Profile Private
+```
+
+4. Restart serviciu din `services.msc` sau rulează manual:
+
+```powershell
+& "C:\Program Files\mosquitto\mosquitto.exe" -c "D:\proiect\mosquitto\config\mosquitto.conf"
+```
+
+### Varianta B — Docker (Linux / Mac)
+
+```bash
+docker compose up -d      # pornește PostgreSQL (5432) + Mosquitto (1883)
+docker compose ps         # verifică starea
+docker compose down       # oprește serviciile
+```
+
+> **Notă:** Pe Windows, Docker Desktop poate bloca accesul la portul 1883 din rețeaua locală.
+> Se recomandă instalarea nativă a Mosquitto.
 
 ---
 
 ## 2. Backend (Flask)
 
-```bash
+```powershell
 cd backend
 python -m venv .venv
 .venv\Scripts\activate          # Windows
 pip install -r requirements.txt
-cp .env.example .env            # apoi editează .env dacă e nevoie
-python seed.py                  # creează conturi + dispozitive demo
+copy .env.example .env          # editează .env dacă e nevoie
+python seed.py                  # creează conturile admin și demo
 python run.py
 ```
 
@@ -166,19 +213,16 @@ Pentru build de producție: `npm run build` (rezultatul în `frontend/dist`).
 
 ---
 
-## 4. Simulator de dispozitive
+## 4. Simulator de dispozitive (opțional, pentru testare)
 
-Generează telemetrie realistă pentru dispozitivele demo, fără hardware fizic:
+Generează telemetrie pentru dispozitivele adăugate manual în platformă.
+Editează `simulator.py` și adaugă codurile dispozitivelor tale în lista `DISPOZITIVE`.
 
 ```bash
 cd simulator
 pip install -r requirements.txt
-python simulator.py                         # broker local, interval 5s
-python simulator.py --broker 192.168.1.10 --interval 2
+python simulator.py
 ```
-
-> Rulează `python seed.py` în backend **înainte** de simulator, ca dispozitivele
-> demo să existe în platformă.
 
 ---
 
@@ -204,20 +248,69 @@ Dispozitivele publică date JSON pe broker-ul MQTT:
 
 ### Raspberry Pi 5 — client dedicat
 
-Pentru Raspberry Pi 5 există un client gata configurat în folderul `raspberry-pi-client/`:
+#### Pasul 1: Adaugă dispozitivul în platformă
+
+În interfața web (`http://localhost:5173`):
+1. Mergi la **Dispozitive** → **Adaugă dispozitiv**
+2. Completează:
+   - **Cod dispozitiv**: `rpi5-roby` (sau ce alegi)
+   - **Tip**: `monitorizare`
+   - **Nume**: `Raspberry Pi 5 - Roby`
+3. Apasă **Salvează**
+
+#### Pasul 2: Copiază clientul pe Raspberry Pi
+
+De pe PC (PowerShell):
+
+```powershell
+scp -r D:\proiect\raspberry-pi-client\ roby@192.168.1.176:~/
+```
+
+#### Pasul 3: Configurează și rulează pe Pi
 
 ```bash
-# Pe Raspberry Pi (prin SSH)
-cd raspberry-pi-client
+ssh roby@192.168.1.176
+# parola: parola
+
+cd ~/raspberry-pi-client
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
-# Editează .env cu IP-ul PC-ului și codul dispozitivului
+nano .env
+```
+
+Editează `.env`:
+
+```ini
+BROKER_MQTT=192.168.1.192    # IP-ul PC-ului (NU al Pi-ului!)
+COD_DISPOZITIV=rpi5-roby     # același cod ca în platformă
+INTERVAL=10
+```
+
+Salvează (`Ctrl+O`, `Enter`, `Ctrl+X`) și rulează:
+
+```bash
 python client.py
 ```
 
-Clientul citește automat **temperatura CPU**, **utilizare CPU**, **memorie RAM** și **utilizare disk** și le publică în platformă. Detalii complete în `raspberry-pi-client/README.md`.
+Ar trebui să vezi:
+
+```
+[MQTT] Conectat la 192.168.1.192:1883
+[MQTT] Status: online -> iot/rpi5-roby/status
+[11:30:15] {"timestamp": "...", "temperatura_cpu": 42.3, "utilizare_cpu": 12.5, ...}
+```
+
+#### Depanare
+
+| Problemă | Soluție |
+|----------|---------|
+| `[Errno 111] Connection refused` | Verifică că Mosquitto rulează pe PC și că portul 1883 e deschis în firewall |
+| `temperatura_cpu` lipsește | Normal pe Windows; pe Raspberry Pi funcționează corect |
+| Dispozitiv offline în platformă | Verifică log-urile clientului și că codul dispozitivului e identic în `.env` și platformă |
+
+Detalii complete (inclusiv configurare systemd pentru pornire automată) în `raspberry-pi-client/README.md`.
 
 ### Exemplu generic (Python)
 
@@ -293,6 +386,6 @@ proiect/
 - Alerte automate (depășire prag, dispozitiv offline)
 - Notificări live prin WebSocket
 - Panou de control cu statistici și distribuție pe tipuri
-- Trimitere comenzi către dispozitive prin MQTT
+- Conectare dispozitive reale (Raspberry Pi 5, ESP32, senzori) prin MQTT
 - Interfață responsivă, complet în limba română
 ```
