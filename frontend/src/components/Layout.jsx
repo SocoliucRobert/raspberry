@@ -20,7 +20,7 @@ export default function Layout() {
 
   return (
     <NotificationsProvider>
-      <div className="flex h-screen overflow-hidden bg-slate-100">
+      <div className="flex h-screen overflow-hidden bg-slate-100 dark:bg-slate-900">
         <Sidebar deschis={meniuDeschis} onInchide={() => setMeniuDeschis(false)} />
 
         <div className="flex flex-1 flex-col overflow-hidden">
